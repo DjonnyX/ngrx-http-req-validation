@@ -28,9 +28,8 @@ export function validateCreateTodoRequest(req: HttpRequest<ITodo>) {
 export function validateUpdateTodoRequest(req: HttpRequest<ITodo>) {
   const todo = req.body;
 
-  _validateTodoEntity(todo);
-  _validateTodoId(todo);
-  _validateTodoName(todo);
+  // _validateTodoEntity(todo);
+  // _validateTodoId(todo);
 }
 
 /**

@@ -1,20 +1,45 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { ITodo } from '@app/models';
+import { Update } from '@ngrx/entity';
 
 @Component({
   selector: 'todo',
   templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.scss']
+  styleUrls: ['./todo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoComponent implements OnInit {
 
-  @Input() data: ITodo;
-  @Output('update') private _updateEmtr = new EventEmitter<ITodo>();
+  @Input() public set data(v: ITodo) {
+    if (this._data === v) {
+      return;
+    }
+
+    this._data = v;
+
+    this.name = v ? v.name : '';
+
+    this._cdr.markForCheck();
+  }
+  public get data() { return this._data; }
+  private _data: ITodo;
+
+  @Output('update') private _updateEmtr = new EventEmitter<Update<ITodo>>();
   @Output('delete') private _deleteEmtr = new EventEmitter<number>();
 
-  constructor() { }
+  public name: string;
+
+  public isEditing = false;
+
+
+  constructor(private _cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
+  }
+
+  edit() {
+    this.name = this.data.name;
+    this.isEditing = true;
   }
 
   delete() {
@@ -22,6 +47,7 @@ export class TodoComponent implements OnInit {
   }
 
   update() {
-    this._updateEmtr.emit(this.data);
+    this._updateEmtr.emit({ id: this.data.id, changes: { name: this.name } });
+    this.isEditing = false;
   }
 }

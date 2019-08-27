@@ -1,6 +1,25 @@
-<div>
-    <span>{{data.name}}</span>
-    <span><button type="button" class="close" aria-label="Close" (click)="delete()">
-            <span aria-hidden="true">&times;</span>
-        </button></span>
+<div class="todo-item">
+    <span class="todo-item__name">
+        <ng-container *ngIf="isEditing; else notEdited">
+            <input [(ngModel)]="name" />
+        </ng-container>
+        <ng-template #notEdited>
+            <p>{{name}}</p>
+        </ng-template>
+    </span>
+    <span class="todo-item__button-group">
+        <ng-container *ngIf="isEditing; else editBtn">
+            <button type="button" class="btn btn-xs btn-primary" (click)="update()">
+                <span aria-hidden="true" class="fa fa-check"></span>
+            </button>
+        </ng-container>
+        <ng-template #editBtn>
+            <button type="button" class="btn btn-xs btn-primary" (click)="edit()">
+                <span aria-hidden="true" class="fa fa-pencil"></span>
+            </button>
+        </ng-template>
+        <button type="button" class="btn btn-xs btn-danger" (click)="delete()">
+            <span class="fa fa-remove"></span>
+        </button>
+    </span>
 </div>

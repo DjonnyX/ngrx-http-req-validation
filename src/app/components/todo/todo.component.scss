@@ -1,0 +1,13 @@
+.todo-item {
+    display: flex;
+
+    .todo-item__name {
+        align-items: center;
+        display: flex;
+        flex: 1;
+    }
+
+    .todo-item__name>p {
+        margin: 0;
+    }
+}
