@@ -1,0 +1,21 @@
+<div class="row justify-content-center">
+
+  <div class="card">
+    <div class="card-header">Todo list</div>
+    <div class="card-body">
+      <div class="mb-3">
+        <add-todo (add)="onAdd($event)"></add-todo>
+      </div>
+      <section class="todo-list" *ngIf="todos$ | async as todos">
+
+        <ul class="list-group">
+
+          <li *ngFor="let todo of todos" class="list-group-item">
+            <todo class="todo-list__item" (update)="onUpdate($event)" (delete)="onDelete($event)" [data]="todo"></todo>
+          </li>
+
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>
